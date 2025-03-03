@@ -1,0 +1,9 @@
+random_seed: 42
+
+device: "cuda"
+
+output_dir: "./outputs/"
+
+wandb:
+  status: True
+  experiment: "GCN model direct, no group normal trojan"

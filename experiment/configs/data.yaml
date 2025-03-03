@@ -1,0 +1,32 @@
+
+data:
+  dir: "/home/aicontest/construct/data"
+  train_csv: "/train.csv"
+  test_csv: "/test.csv"
+  submission_csv: "/sample_submission.csv"
+
+  result_dir: "/home/aicontest/construct/experiment/result"
+  result_file: "/baseline_submission.csv"
+
+  split_seed: 42
+  category: False
+
+  rag:
+    use: True
+    document: "/건설안전지침"
+    embedding_model: "jhgan/ko-sbert-nli"
+    search_type: "similarity"
+    search_kwargs:
+      k: 5
+
+  train:
+    batch_size: 2
+    num_workers: 2
+
+  val:
+    batch_size: 2
+    num_workers: 2
+
+  test:
+    batch_size: 2
+    num_workers: 2
