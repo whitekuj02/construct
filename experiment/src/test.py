@@ -42,6 +42,8 @@ def run(config: Dict[str, Any]) -> float:
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dir = config['train']['parameter_save'] + '/' + config['train']['test']['dir']
+    dir = "/home/aicontest/construct/experiment/dpo_model"
+    print(dir)
     # 모델과 토크나이저 로드
     model = AutoModelForCausalLM.from_pretrained(dir).to(device)
     tokenizer = AutoTokenizer.from_pretrained(dir)
@@ -74,7 +76,7 @@ def run(config: Dict[str, Any]) -> float:
 질문: {row['question']}
 대답: """
         else:
-            question = f"질문: {row['question']}대답: "
+            question = f"질문: {row['question']}대답:"
         #print(question)
 
         # 모델 생성 실행 (generate 사용)
@@ -90,9 +92,9 @@ def run(config: Dict[str, Any]) -> float:
 
         output_ids = model.generate(
             **input_ids,  # 질문을 그대로 입력
-            max_new_tokens=64,  # 답변 길이만 제한
+            max_new_tokens=128,  # 답변 길이만 제한
             do_sample=True,  # 확률적 샘플링 비활성화 (일관된 결과 보장)
-            #num_beams=1,  # Greedy Decoding 사용 (최적의 답변 출력)
+            num_beams=1,  # Greedy Decoding 사용 (최적의 답변 출력)
             repetition_penalty=1.2,
             pad_token_id=tokenizer.pad_token_id,  # 패딩을 EOS로 설정
             eos_token_id=tokenizer.eos_token_id  # EOS에서 멈추도록 설정
@@ -113,8 +115,8 @@ def run(config: Dict[str, Any]) -> float:
 
         # for to_remove in ["unknown", "#", "ญ", "<b>", "</b>", "</nsp>", "@"]:
         #     answer = answer.replace(to_remove, "")
-        for to_remove in ["2인1조", "2인1조로"]:
-            answer = answer.replace(to_remove,"")
+        # for to_remove in ["2인1조", "2인1조로", "2인 1조", "2인1조의", "2인 1조의", "2인 1조로"]:
+        #     answer = answer.replace(to_remove,"")
         # answer = re.sub(r'\(\s*\)', '', answer)
 
         # # 먼저 answer_list를 만들고

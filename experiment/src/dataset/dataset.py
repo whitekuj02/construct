@@ -196,7 +196,7 @@ class CustomDataset(Dataset):
                 {"question": question2, "answer": answer_text},
                 {"question": question3, "answer": answer_text},
                 {"question": question4, "answer": answer_text},
-              #  {"question": question5, "answer": answer_text},
+                {"question": question5, "answer": answer_text},
             ]
 
         # apply() → 각 행마다 5개 prompt 리스트 → 2차원 리스트가 만들어짐

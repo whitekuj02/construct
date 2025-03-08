@@ -10,7 +10,7 @@ import numpy as np
 import sklearn
 
 # source code
-from src import train, test
+from src import train, test, DPO
 
 
 def set_random_seed(seed):
@@ -42,7 +42,7 @@ def get_config(config_folder):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse configuration files from a folder')
     
-    parser.add_argument('-m', '--mode', help="Select mode(train/test)", default="train")
+    parser.add_argument('-m', '--mode', help="Select mode(train/test/DPO)", default="train")
     parser.add_argument('-cf', '--config-folder', required=False, help="Path to config folder containing YAML files", default="./configs/")
     parser.add_argument('-sd', '--seed', required=False ,help="whether fixing seed", action='store_false')
     
@@ -61,5 +61,7 @@ if __name__ == "__main__":
         train.run(config)
     elif mode == 'test':
         test.run(config)
+    elif mode == 'DPO':
+        DPO.run(config)
     else:
         raise ValueError(f"Invalid mode: {mode}")

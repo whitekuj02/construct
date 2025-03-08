@@ -2,7 +2,7 @@
 train:
   model:
     #name: "Bllossom/llama-3.2-Korean-Bllossom-3B" #"Bllossom/llama-3.2-Korean-Bllossom-3B" # "NCSOFT/Llama-VARCO-8B-Instruct"
-    name : "Bllossom/llama-3.2-Korean-Bllossom-AICA-5B"
+    name : "Bllossom/llama-3.2-Korean-Bllossom-3B" 
     quantization:
       use: True
       config:
@@ -16,20 +16,20 @@ train:
       use: True
       config:
         task_type: "CAUSAL_LM"
-        r: 32 
-        lora_alpha: 8
+        r: 64 
+        lora_alpha: 16
         lora_dropout: 0.1
-        target_modules: ["q_proj", "v_proj", "k_proj"]  # 실제 모델의 모듈 이름에 맞게 설정
+      #  target_modules: ["q_proj", "v_proj", "k_proj"]  # 실제 모델의 모듈 이름에 맞게 설정
 
   parameter_save: "/home/aicontest/construct/experiment/src/parameter"
 
-  SFT: True
+  SFT: False
   training:
     output_dir: "./outputs"
     per_device_train_batch_size: 4
     # max_steps: 5000
     # gradient_accumulation_steps: 4
-    num_train_epochs: 2 
+    num_train_epochs: 3 
     save_total_limit: 1
     logging_dir: "./logs"
     logging_steps: 10
@@ -38,7 +38,20 @@ train:
     fp16: True  # mixed precision 사용
     push_to_hub: False
     report_to: "none"
-
+    
+  dpo:
+    output_dir: "./dpo_model"
+    gradient_accumulation_steps: 4   # 배치 사이즈가 작은 대신 그라디언트 누적
+    fp16 : True         # 반정밀도 사용
+    max_steps: 4000                 
+    gradient_checkpointing: True      # 메모리 최적화
+    per_device_train_batch_size: 1
+    num_train_epochs: 1
+    logging_steps: 10
+    save_total_limit: 1
+    weight_decay: 0.1
+    push_to_hub: False
+    report_to: "none"
 
   test:
-    dir: "4_prompt_aug_5b"
+    dir: "Trainer_3B_upgrade" 
