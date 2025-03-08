@@ -136,11 +136,10 @@ def run(config: Dict[str, Any]) -> float:
 
     ref_model = AutoModelForCausalLM.from_pretrained(sft_model_dir, torch_dtype=torch.bfloat16).to(device)
 
-    torch.cuda.empty_cache()  # 불필요한 GPU 메모리 해제
+    torch.cuda.empty_cache()  
     # DPO 모델을 훈련 모드로 설정
     model.train()
 
-    # LoRA 파라미터만 학습 가능하도록 설정
     for name, param in model.named_parameters():
         if "lora" in name:
             param.requires_grad = True
