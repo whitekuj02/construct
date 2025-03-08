@@ -78,7 +78,6 @@ def run(config: Dict[str, Any]) -> float:
             group_5 = data_items[i * 5: i * 5 + 5]
             chosen_item = random.choice(group_5)
 
-        # for chosen_item in tqdm(data_items, desc="Generating Rejected"):
             question = chosen_item["question"]
             choosen_answer = chosen_item["answer"]
 
@@ -105,7 +104,6 @@ def run(config: Dict[str, Any]) -> float:
 
                 model_output = tokenizer.decode(output_ids[0], skip_special_tokens=True)
                 rejected_answer = model_output.split("대답: ")[-1].strip()
-                # print(rejected_answer)
 
                 rejected_data.append({
                     "prompt": question,
@@ -146,7 +144,7 @@ def run(config: Dict[str, Any]) -> float:
         else:
             param.requires_grad = False
 
-    ref_model.eval()  # ref_model은 평가 모드 유지 (학습되지 않음)
+    ref_model.eval()  # ref_model은 평가 모드 유지
 
     dpo_trainer = DPOTrainer(
         model=model,
